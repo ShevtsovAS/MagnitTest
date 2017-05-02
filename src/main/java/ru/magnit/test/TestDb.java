@@ -15,15 +15,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Test {
+public class TestDb {
 
     private int n;
 
     private Connection connection;
 
-    public Test(Connection connection, int n) throws SQLException {
+    public TestDb(Connection connection, int n) throws SQLException {
         this.n = n;
         this.connection = connection;
         fillTable();
@@ -39,6 +40,10 @@ public class Test {
     }
 
     private void fillTable() throws SQLException {
+        if (connection == null) {
+            System.err.println("Connection is not opened");
+            return;
+        }
         connection.setAutoCommit(false);
         connection.prepareStatement("DELETE FROM test").execute();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO test(field) VALUES (?)");
@@ -80,14 +85,24 @@ public class Test {
     }
 
     private List<Integer> getFields() throws SQLException {
+        if (connection == null) {
+            System.err.println("Connection is not opened");
+            return Collections.emptyList();
+        }
+
         List<Integer> fields = new ArrayList<>();
 
         ResultSet resultSet = connection.prepareStatement("SELECT FIELD FROM test").executeQuery();
         while (resultSet.next()) {
-            fields.add(resultSet.getInt(1));
+            fields.add(resultSet.getInt("FIELD"));
         }
         resultSet.close();
 
         return fields;
+    }
+
+    public void disconnect() throws SQLException {
+        connection.close();
+        connection = null;
     }
 }

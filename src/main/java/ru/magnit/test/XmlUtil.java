@@ -16,7 +16,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 
 public class XmlUtil {
 
@@ -30,7 +29,7 @@ public class XmlUtil {
         System.out.printf("Conversion from file %s to file %s with style %s completed!\n", fromFile, toFile, xsltFile);
     }
 
-    public static BigInteger countSumOfElements(String xmlFile) throws ParserConfigurationException, IOException, SAXException {
+    public static long countSumOfElements(String xmlFile) throws ParserConfigurationException, IOException, SAXException {
         File fXmlFile = new File(xmlFile);
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
@@ -41,13 +40,12 @@ public class XmlUtil {
         document.getDocumentElement().normalize();
 
         NodeList nList = document.getElementsByTagName("entry");
-        BigInteger result = BigInteger.ZERO;
 
+        long result = 0;
         for (int i = 0; i < nList.getLength(); i++) {
             Node node = nList.item(i);
             Element element = (Element) node;
-            int fieldValue = Integer.parseInt(element.getAttribute("field"));
-            result = result.add(BigInteger.valueOf(fieldValue));
+            result += Long.parseLong(element.getAttribute("field"));
         }
         
         return result;
