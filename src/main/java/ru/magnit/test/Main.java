@@ -19,7 +19,7 @@ public class Main {
             testDb.createXml("1.xml");
             testDb.disconnect();
 
-            // преобразует содержимое 1.xml посредством XSLT к 2.xml
+            // преобразуем содержимое 1.xml посредством XSLT к 2.xml
             XmlUtil.convertWithXSLT("1.xml", "2.xml", "src/main/resources/style.xsl");
 
             // парсим 2.xml и выводим арифметическую сумму значений всех атрибутов field в консоль
