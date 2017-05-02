@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 
 public class Main {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/test";
-    private static final String user = "user";
-    private static final String password = "password";
+    private static final String URL = "jdbc:postgresql://localhost:5432/test";
+    private static final String USER = "user";
+    private static final String PASSWORD = "password";
 
     public static void main(String[] args) {
 
-        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             // Подключаемся к базе данных и заполняем таблицу TEST 1..n элементами
             TestDb testDb = new TestDb(connection, 1000000);
 
