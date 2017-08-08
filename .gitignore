@@ -3,3 +3,6 @@ out
 *.iml
 1.xml
 2.xml
+/bin/
+/.classpath
+/.project
